@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#include "livekit/bridge_error.h"
+
 #include "livekit/rtp_transceiver.h"
 
 #include "api/peer_connection_interface.h"
@@ -83,7 +85,7 @@ void RtpTransceiver::set_direction(RtpTransceiverDirection direction) const {
       static_cast<webrtc::RtpTransceiverDirection>(direction));
 
   if (!error.ok()) {
-    throw std::runtime_error(serialize_error(to_error(error)));
+    throw ::livekit_ffi::BridgeError(serialize_error(to_error(error)));
   }
 }
 
@@ -100,7 +102,7 @@ RtpTransceiverDirection RtpTransceiver::fired_direction() const {
 void RtpTransceiver::stop_standard() const {
   auto error = transceiver_->StopStandard();
   if (!error.ok())
-    throw std::runtime_error(serialize_error(to_error(error)));
+    throw ::livekit_ffi::BridgeError(serialize_error(to_error(error)));
 }
 
 void RtpTransceiver::set_codec_preferences(
@@ -112,7 +114,7 @@ void RtpTransceiver::set_codec_preferences(
 
   auto error = transceiver_->SetCodecPreferences(std_codecs);
   if (!error.ok())
-    throw std::runtime_error(serialize_error(to_error(error)));
+    throw ::livekit_ffi::BridgeError(serialize_error(to_error(error)));
 }
 
 rust::Vec<RtpCodecCapability> RtpTransceiver::codec_preferences() const {
@@ -150,7 +152,7 @@ void RtpTransceiver::set_header_extensions_to_negotiate(
 
   auto error = transceiver_->SetHeaderExtensionsToNegotiate(headers);
   if (!error.ok())
-    throw std::runtime_error(serialize_error(to_error(error)));
+    throw ::livekit_ffi::BridgeError(serialize_error(to_error(error)));
 }
 
 }  // namespace livekit_ffi

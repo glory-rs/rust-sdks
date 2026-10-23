@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#include "livekit/bridge_error.h"
+
 #include "livekit/frame_cryptor.h"
 
 #include <memory>
@@ -272,7 +274,7 @@ EncryptedPacket DataPacketCryptor::encrypt_data_packet(
       data_vec);
 
   if (!result.ok()) {
-    throw std::runtime_error(std::string("Failed to encrypt data packet: ") +
+    throw ::livekit_ffi::BridgeError(std::string("Failed to encrypt data packet: ") +
                              result.error().message());
   }
 
@@ -312,7 +314,7 @@ rust::Vec<::std::uint8_t> DataPacketCryptor::decrypt_data_packet(
       native_encrypted_packet);
 
   if (!result.ok()) {
-    throw std::runtime_error(std::string("Failed to decrypt data packet: ") +
+    throw ::livekit_ffi::BridgeError(std::string("Failed to decrypt data packet: ") +
                              result.error().message());
   }
 

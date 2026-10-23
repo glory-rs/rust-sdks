@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include "livekit/bridge_error.h"
+
 #include <stdint.h>
 
 #include <memory>
@@ -57,7 +59,7 @@ class KeyProvider {
     rust::Vec<uint8_t> vec;
     auto data = impl_->RatchetSharedKey(key_index);
     if (data.empty()) {
-      throw std::runtime_error("ratchet_shared_key failed");
+      throw ::livekit_ffi::BridgeError("ratchet_shared_key failed");
     }
 
     std::move(data.begin(), data.end(), std::back_inserter(vec));
@@ -68,7 +70,7 @@ class KeyProvider {
     rust::Vec<uint8_t> vec;
     auto data = impl_->ExportSharedKey(key_index);
     if (data.empty()) {
-      throw std::runtime_error("get_shared_key failed");
+      throw ::livekit_ffi::BridgeError("get_shared_key failed");
     }
 
     std::move(data.begin(), data.end(), std::back_inserter(vec));
@@ -92,7 +94,7 @@ class KeyProvider {
     auto data = impl_->RatchetKey(
         std::string(participant_id.data(), participant_id.size()), key_index);
     if (data.empty()) {
-      throw std::runtime_error("ratchet_key failed");
+      throw ::livekit_ffi::BridgeError("ratchet_key failed");
     }
 
     std::move(data.begin(), data.end(), std::back_inserter(vec));
@@ -105,7 +107,7 @@ class KeyProvider {
     auto data = impl_->ExportKey(
         std::string(participant_id.data(), participant_id.size()), key_index);
     if (data.empty()) {
-      throw std::runtime_error("get_key failed");
+      throw ::livekit_ffi::BridgeError("get_key failed");
     }
 
     std::move(data.begin(), data.end(), std::back_inserter(vec));

@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include "livekit/bridge_error.h"
+
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -27,7 +29,7 @@ namespace livekit_ffi {
 
 #define THROW_ON_ERROR(ret)                                           \
   if (ret != 0) {                                                     \
-    throw std::runtime_error("libyuv error: " + std::to_string(ret)); \
+    throw ::livekit_ffi::BridgeError("libyuv error: " + std::to_string(ret)); \
   }
 
 static void i420_to_argb(const uint8_t* src_y,
